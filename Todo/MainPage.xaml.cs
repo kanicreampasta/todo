@@ -16,8 +16,7 @@ namespace Todo
         {
             InitializeComponent();
             Todos = new ObservableCollection<Todo>();
-
-            Todos.Add(new Todo("tesuto"));
+            Title = "Simple Todo";
 
             todoList.BindingContext = this;
         }
@@ -35,5 +34,17 @@ namespace Todo
         }
 
         public ObservableCollection<Todo> Todos { get; private set; }
+
+        async void OnTodoItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem == null)
+            {
+                return;
+            }
+
+            Todo todo = e.SelectedItem as Todo;
+            Debug.WriteLine("TODO selected: " + todo.ToString());
+            await Navigation.PushAsync(new DetailPage(todo));
+        }
     }
 }

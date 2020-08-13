@@ -5,6 +5,6 @@
             <Entry x:Name="userInput" Placeholder="Add new Todo..." HorizontalOptions="FillAndExpand" />
             <Button Text="追加" Clicked="OnAddButtonClicked"/>
         </StackLayout>
-        <ListView x:Name="todoList" ItemsSource="{Binding Todos}"></ListView>
+        <ListView x:Name="todoList" ItemsSource="{Binding Todos}" ItemSelected="OnTodoItemSelected"></ListView>
     </StackLayout>
 </ContentPage>
