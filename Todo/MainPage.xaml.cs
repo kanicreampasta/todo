@@ -19,6 +19,12 @@ namespace Todo
             Title = "Simple Todo";
 
             todoList.BindingContext = this;
+
+            var savedTodos = App.Database.GetTodoAsync().GetAwaiter().GetResult();
+            foreach (var savedTodo in savedTodos)
+            {
+                Todos.Add(savedTodo);
+            }
         }
 
         void OnAddButtonClicked(object sender, EventArgs e)
@@ -26,8 +32,10 @@ namespace Todo
             Debug.WriteLine("userInput: " + userInput.Text);
             if (!userInput.Text.Equals(""))
             {
-                Todos.Add(new Todo(userInput.Text));
+                var todo = new Todo(userInput.Text);
+                Todos.Add(todo);
                 Debug.WriteLine("Number of Todos: " + Todos.Count);
+                App.Database.InsertTodoAsync(todo);
             }
 
             userInput.Text = "";
@@ -45,6 +53,7 @@ namespace Todo
             Todo todo = e.SelectedItem as Todo;
             Debug.WriteLine("TODO selected: " + todo.ToString());
             await Navigation.PushAsync(new DetailPage(todo));
+            (sender as ListView).SelectedItem = null;
         }
     }
 }
